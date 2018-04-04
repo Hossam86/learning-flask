@@ -45,11 +45,15 @@ def login():
             user=User.query.filter_by(email=email).first()
             if user is not None and user.check_password(password):
                 session['email']=form.email.data
-                return redirect(url_for('home'))
+                return redirect(url_for('home') )
             else:
                 return redirect(url_for('login'))
     elif request.method=="GET":
         return render_template('login.html',form=form)
+@app.route("/logout")
+def logout():
+    session.pop('email',None)
+    return redirect(url_for('index'))
 
 @app.route("/home")
 def home():
